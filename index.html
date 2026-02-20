@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Un detallito para ti 💗</title>
+  <style>
+    :root{
+      --bg1:#ffe7f3;
+      --bg2:#e8f3ff;
+      --ink:#3b2f3a;
+      --card:#ffffffcc;
+      --border:#ffffff;
+      --shadow: 0 18px 60px rgba(0,0,0,.12);
+      --accent:#ff4fa3;
+      --accent2:#7b61ff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1000px 500px at 20% 10%, var(--bg2), transparent 60%),
+        radial-gradient(900px 500px at 80% 0%, #fff1c9, transparent 55%),
+        radial-gradient(900px 600px at 50% 95%, #f0ffe8, transparent 50%),
+        linear-gradient(180deg, var(--bg1), #fff);
+      overflow:hidden;
+    }
+
+    /* decor emojis */
+    .float-decor{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.6;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,.08));
+    }
+    .float-decor span{
+      position:absolute;
+      font-size:22px;
+      animation: drift 10s ease-in-out infinite;
+    }
+    .float-decor span:nth-child(1){left:6%; top:12%; animation-duration:12s}
+    .float-decor span:nth-child(2){left:86%; top:16%; animation-duration:14s}
+    .float-decor span:nth-child(3){left:12%; top:78%; animation-duration:13s}
+    .float-decor span:nth-child(4){left:78%; top:74%; animation-duration:11s}
+    .float-decor span:nth-child(5){left:46%; top:8%; animation-duration:15s}
+    @keyframes drift{
+      0%,100%{transform:translate(0,0) rotate(-3deg)}
+      50%{transform:translate(10px,-12px) rotate(4deg)}
+    }
+
+    .wrap{
+      width:min(980px, 92vw);
+      display:grid;
+      gap:18px;
+      grid-template-columns: 1.1fr .9fr;
+      align-items:stretch;
+    }
+    @media (max-width: 860px){
+      .wrap{grid-template-columns:1fr}
+    }
+
+    .panel{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      padding:22px;
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .title{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .badge{
+      width:44px;height:44px;
+      border-radius:14px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg, #fff, #fff0);
+      border:1px solid #ffffff;
+      box-shadow: 0 10px 25px rgba(0,0,0,.08);
+      font-size:22px;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(20px, 2.4vw, 28px);
+      line-height:1.1;
+    }
+    .sub{
+      margin:6px 0 0;
+      opacity:.85;
+      font-size:14px;
+    }
+
+    /* book */
+    .book-area{
+      display:grid;
+      place-items:center;
+      padding:10px 0 0;
+    }
+    .book{
+      width:min(420px, 100%);
+      aspect-ratio: 16 / 11;
+      perspective: 1200px;
+      position:relative;
+    }
+    .cover, .page{
+      position:absolute; inset:0;
+      border-radius:20px;
+      border:1px solid #ffffff;
+      box-shadow: 0 18px 50px rgba(0,0,0,.12);
+      overflow:hidden;
+    }
+    .cover{
+      background:
+        radial-gradient(450px 200px at 30% 20%, #fff, transparent 60%),
+        linear-gradient(135deg, #ffb7d8, #b7d8ff);
+      transform-origin:left center;
+      transform: rotateY(0deg);
+      transition: transform .9s cubic-bezier(.2,.9,.2,1);
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      padding:18px 18px 14px;
+    }
+    .cover .topline{
+      display:flex;justify-content:space-between;align-items:center;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .cover .icons{opacity:.9}
+    .cover .big{
+      margin:10px 0 0;
+      font-size:26px;
+      font-weight:900;
+      text-shadow: 0 10px 20px rgba(0,0,0,.12);
+    }
+    .cover .hint{
+      margin:0;
+      font-size:13px;
+      opacity:.9;
+    }
+    .page{
+      background:
+        linear-gradient(180deg, #ffffff, #fff6fb);
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .paper{
+      background: #ffffffd9;
+      border:1px dashed rgba(0,0,0,.08);
+      border-radius:16px;
+      padding:16px;
+    }
+    .paper p{
+      margin:0;
+      font-size:15px;
+      line-height:1.55;
+    }
+    .sig{
+      margin-top:10px;
+      font-weight:700;
+    }
+
+    .book.open .cover{
+      transform: rotateY(-145deg);
+    }
+
+    .btns{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    button{
+      border:0;
+      cursor:pointer;
+      border-radius:14px;
+      padding:12px 14px;
+      font-weight:800;
+      letter-spacing:.2px;
+      background:#fff;
+      color:var(--ink);
+      box-shadow: 0 12px 26px rgba(0,0,0,.10);
+      border:1px solid rgba(255,255,255,.9);
+      transition: transform .08s ease, filter .2s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+    }
+    button:active{transform: translateY(1px) scale(.99)}
+    .primary{
+      background: linear-gradient(135deg, var(--accent), #ff8ac8);
+      color:white;
+    }
+    .secondary{
+      background: linear-gradient(135deg, #ffffff, #ffffffaa);
+    }
+    .mini{
+      font-size:12px;
+      opacity:.9;
+      margin:0;
+    }
+
+    /* modal */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      padding:16px;
+      background: rgba(0,0,0,.35);
+      z-index:50;
+    }
+    .modal.show{display:grid}
+    .modal-card{
+      width:min(520px, 96vw);
+      border-radius:22px;
+      background: #fff;
+      box-shadow: 0 22px 80px rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.8);
+      overflow:hidden;
+      transform: translateY(6px);
+      animation: pop .18s ease-out forwards;
+    }
+    @keyframes pop{to{transform:translateY(0)}}
+    .modal-head{
+      padding:14px 16px;
+      background: linear-gradient(135deg, #ffe1f0, #e8f2ff);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+    }
+    .x{
+      width:36px;height:36px;border-radius:12px;
+      display:grid;place-items:center;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.06);
+      box-shadow: 0 10px 22px rgba(0,0,0,.10);
+      cursor:pointer;
+      user-select:none;
+    }
+    .modal-body{padding:16px}
+    .note{
+      background: #fff7fb;
+      border:1px solid rgba(255,79,163,.18);
+      border-radius:16px;
+      padding:14px;
+      font-size:16px;
+      line-height:1.5;
+    }
+    .modal-foot{
+      padding:14px 16px 16px;
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+
+    /* rain */
+    .rain{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:60;
+    }
+    .drop{
+      position:absolute;
+      top:-40px;
+      font-size:18px;
+      animation: fall linear forwards;
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,.10));
+      opacity:.95;
+      will-change: transform;
+    }
+    @keyframes fall{
+      to{
+        transform: translateY(calc(100vh + 80px)) rotate(360deg);
+        opacity:0.98;
+      }
+    }
+
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .drop, .float-decor span, .cover{animation:none; transition:none}
+    }
+
+    /* right panel */
+    .side h2{
+      margin:0 0 6px;
+      font-size:18px;
+    }
+    .chips{
+      display:flex; flex-wrap:wrap; gap:8px;
+      margin:10px 0 0;
+    }
+    .chip{
+      padding:8px 10px;
+      border-radius:999px;
+      background: #ffffffcc;
+      border:1px solid rgba(0,0,0,.06);
+      box-shadow: 0 10px 20px rgba(0,0,0,.06);
+      font-weight:800;
+      font-size:12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="float-decor" aria-hidden="true">
+    <span>🦋</span><span>🍄</span><span>💗</span><span>📖</span><span>🎀</span>
+  </div>
+
+  <div class="rain" id="rain" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <section class="panel">
+      <div class="title">
+        <div class="badge">💌</div>
+        <div>
+          <h1>Para <span id="herName">Liz</span> ✨</h1>
+          <p class="sub">abre el librito y saca una notita cuando quieras.</p>
+        </div>
+      </div>
+
+      <div class="book-area">
+        <div class="book" id="book" role="button" tabindex="0" aria-label="Abrir o cerrar el librito">
+          <div class="page">
+            <div class="paper">
+              <p id="mainText">
+                Hoy solo quería recordarte algo simple:
+                <b>me haces bien</b>. Gracias por existir, por tu forma de ser,
+                y por estar conmigo incluso en días raros.
+              </p>
+              <p class="sig">— Con amor, <span id="fromName">Tu persona 💗</span></p>
+            </div>
+
+            <p class="mini">toca el botón “Sacar notita” para una sorpresa.</p>
+          </div>
+
+          <div class="cover">
+            <div class="topline">
+              <span>Mi librito para ti</span>
+              <span class="icons">🦋🍄📖</span>
+            </div>
+            <div>
+              <div class="big">Te elijo hoy</div>
+              <p class="hint">Haz click para abrir ✨</p>
+            </div>
+            <p class="hint">Hecho con cariño • 💗</p>
+          </div>
+        </div>
+
+        <div class="btns">
+          <button class="primary" id="btnNote">💗 Sacar notita</button>
+          <button class="secondary" id="btnOpen">📖 Abrir/Cerrar</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Notita">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>Notita para ti 💖</div>
+        <div class="x" id="closeModal" aria-label="Cerrar">✕</div>
+      </div>
+      <div class="modal-body">
+        <div class="note" id="noteText"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="primary" id="copyBtn">📋 Copiar</button>
+        <button class="secondary" id="newBtn">🎲 Otra</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === PERSONALIZA AQUÍ ===
+    const HER_NAME = "Liz";          // <- nombre de tu novia
+    const FROM_NAME = "Kenay 💗";     // <- tu firma
+    const MAIN_TEXT = `Hoy solo quería recordarte algo simple:
+      <b>me haces bien</b>. Gracias por elejirme y te prometo que me quedare a tu lado para siempre`;
+
+    const NOTES = [
+      "Eres mi lugar bonito en el mundo. 💗",
+      "Me encanta tu risa y tu esencia.",
+      "Si hoy fue pesado, aquí estoy contigo, siempre.",
+      "Gracias por ser tú.",
+      "Te pienso más de lo que imaginas (y me hace feliz).",
+      "Eres mi casualidad favorita. ✨",
+      "Prometo cuidarte con palabras y con hechos.",
+      "Tu existencia hace que mis días tengan sentido.",
+      "Eres preciosa por dentro y por fuera, y punto.",
+      "Hoy te mando un abrazo que dure un buen rato. 🫂"
+    ];
+
+    // === UI ===
+    const book = document.getElementById("book");
+    const btnOpen = document.getElementById("btnOpen");
+    const btnNote = document.getElementById("btnNote");
+
+    const modal = document.getElementById("modal");
+    const noteText = document.getElementById("noteText");
+    const closeModal = document.getElementById("closeModal");
+    const copyBtn = document.getElementById("copyBtn");
+    const newBtn = document.getElementById("newBtn");
+
+    const rain = document.getElementById("rain");
+
+    document.getElementById("herName").textContent = HER_NAME;
+    document.getElementById("fromName").textContent = FROM_NAME;
+    document.getElementById("mainText").innerHTML = MAIN_TEXT;
+
+    const rand = (min, max) => Math.random() * (max - min) + min;
+
+    function toggleBook(){
+      book.classList.toggle("open");
+      burstRain(18);
+    }
+
+    function pickNote(){
+      return NOTES[Math.floor(Math.random() * NOTES.length)];
+    }
+
+    function openModal(text){
+      noteText.textContent = text;
+      modal.classList.add("show");
+      burstRain(28);
+    }
+
+    function closeIt(){
+      modal.classList.remove("show");
+    }
+
+    function burstRain(n=20){
+      // hearts + petals
+      const chars = ["💗","💖","💕","🌸","🦋"];
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const count = reduced ? Math.ceil(n/3) : n;
+
+      for(let i=0;i<count;i++){
+        const el = document.createElement("span");
+        el.className = "drop";
+        el.textContent = chars[Math.floor(Math.random()*chars.length)];
+        el.style.left = rand(0, 100) + "vw";
+        el.style.fontSize = rand(16, 26) + "px";
+        el.style.animationDuration = rand(2.8, 5.2) + "s";
+        el.style.transform = `translateY(-40px) rotate(${rand(0,360)}deg)`;
+        rain.appendChild(el);
+
+        const kill = () => el.remove();
+        el.addEventListener("animationend", kill, {once:true});
+        setTimeout(kill, 6000);
+      }
+    }
+
+    // events
+    book.addEventListener("click", toggleBook);
+    book.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggleBook(); }});
+    btnOpen.addEventListener("click", toggleBook);
+
+    btnNote.addEventListener("click", ()=> openModal(pickNote()));
+    closeModal.addEventListener("click", closeIt);
+    modal.addEventListener("click", (e)=>{ if(e.target === modal) closeIt(); });
+    document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeIt(); });
+
+    newBtn.addEventListener("click", ()=> openModal(pickNote()));
+
+    copyBtn.addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(noteText.textContent);
+        burstRain(20);
+        copyBtn.textContent = "✅ Copiado";
+        setTimeout(()=> copyBtn.textContent = "📋 Copiar", 1200);
+      }catch{
+        // fallback
+        const t = document.createElement("textarea");
+        t.value = noteText.textContent;
+        document.body.appendChild(t);
+        t.select();
+        document.execCommand("copy");
+        t.remove();
+        copyBtn.textContent = "✅ Copiado";
+        setTimeout(()=> copyBtn.textContent = "📋 Copiar", 1200);
+      }
+    });
+
+    // tiny welcome sparkle
+    setTimeout(()=>burstRain(14), 450);
+  </script>
+</body>
+</html>
